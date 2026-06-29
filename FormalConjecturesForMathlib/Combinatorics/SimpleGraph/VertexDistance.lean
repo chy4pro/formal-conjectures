@@ -16,7 +16,7 @@ limitations under the License.
 module
 
 public import Mathlib.Analysis.RCLike.Basic
-public import Mathlib.Combinatorics.SimpleGraph.Connectivity.WalkCounting
+public import Mathlib.Combinatorics.SimpleGraph.Connectivity.Finite
 public import Mathlib.Combinatorics.SimpleGraph.Metric
 public import Mathlib.Tactic.IntervalCases
 public import FormalConjecturesForMathlib.Combinatorics.SimpleGraph.Connectivity
@@ -257,7 +257,7 @@ theorem dist_eq_computable (G : SimpleGraph α) [DecidableRel G.Adj] (u v : α) 
         -- dist u v ≥ depth: if dist < depth, v ∈ iterate^(dist u v), contradicts h_not_found
         by_contra hne
         have hlt : G.dist u v < depth := by omega
-        have hreach : G.Reachable u v := G.reachable_of_mem_iterate_bfsStep _ ((h_inv v).mp hv)
+        have hreach : G.Reachable u v := G.reachable_of_mem_iterate_bfsStep ((h_inv v).mp hv)
         exact h_not_found (G.dist u v) hlt
           (dist_le_mem_iterate_bfsStep G u v _ le_rfl (Or.inr hreach))
       · -- v ∉ reached. Recurse.
