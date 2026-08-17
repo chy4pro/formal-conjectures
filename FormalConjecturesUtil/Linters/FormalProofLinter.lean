@@ -47,7 +47,7 @@ namespace FormalProofLinter
 declaration to finish elaborating. -/
 def isProved (declName : Name) : CommandElabM Bool := do
   let some info := (← getEnv).findAsync? declName | return false
-  return info.toConstantInfo.value?.any (!·.hasSorry)
+  return info.toConstantInfo.value? (allowOpaque := true) |>.any (!·.hasSorry)
 
 /-- Warns when a hypothesis assumed by a `conditional formal_proof` has since been
 proved, so the proof may no longer be conditional on it. -/
